@@ -1,38 +1,36 @@
-.App {
-  text-align: center;
+#login_page {
+  background-color: rgb(244, 244, 244);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#login_content {
+  -webkit-animation: fadeIn 500ms linear; /* Safari */
+  animation: fadeIn 500ms linear;
+  
+  height: 600px;
+  width: 450px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -300px;
+  margin-left: -225px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@-webkit-keyframes fadeIn {
+  from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.login_switcher {
+  color: #555 !important;
+  opacity: .4 !important;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login_switcher:hover {
+  color: #007bff !important;
+  opacity: 100% !important;
+  cursor: pointer;
 }
