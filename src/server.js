@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 mongoose.set('strictQuery', true);
 // this is my MongoDB connect string
 // you can change it to yours
-// you can also keep using mine
+// you can also keep using mine :(
 mongoose.connect('mongodb+srv://stu009:p424894W@cluster0.wenbhsm.mongodb.net/stu009');
 
 const LoginAccessSchema = new Schema({
