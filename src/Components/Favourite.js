@@ -4,9 +4,9 @@ class Favourite extends Component {
 
     render() {
         return (
-			<div className="col-sm-10">
+			<main className="col">
                 Favourite
-            </div>
+            </main>
         );
     }
 }

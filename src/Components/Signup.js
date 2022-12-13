@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import axios from 'axios';
 
 class Signup extends Component {
 
@@ -93,7 +94,75 @@ class Signup extends Component {
         }
     }
 
-    // submit = (e) => {...} 
+    submit = (e) => {
+        let inputCorrect = true;
+
+        // check username
+        let element = document.querySelector("#input_username");
+        if (this.state.username === "") {
+            element.classList.add("is-invalid");
+            document.querySelector("#input_username-invalid").innerText = "Please enter username";
+            inputCorrect = false;
+        }
+        else if (String(this.state.username).length < 4 || String(this.state.username).length > 20) {
+            element.classList.add("is-invalid");
+            document.querySelector("#input_username-invalid").innerText = "Username must be between 4 and 20 characters";
+            inputCorrect = false;
+        }
+
+        // check password
+        element = document.querySelector("#input_pwd");
+        if (this.state.password === "") {
+            element.classList.add("is-invalid");
+            document.querySelector("#input_pwd-invalid").innerText = "Please enter password";
+            inputCorrect = false;
+        }
+        else if (String(this.state.pwd).length < 4 || String(this.state.pwd).length > 20) {
+            element.classList.add("is-invalid");
+            document.querySelector("#input_pwd-invalid").innerText = "Password must be between 4 and 20 characters";
+            inputCorrect = false;
+        }
+
+        // check confirm password
+        element = document.querySelector("#input_cpwd");
+        if (this.state.confirm_pwd === "") {
+            element.classList.add("is-invalid");
+            document.querySelector("#input_cpwd-invalid").innerText = "Please enter password";
+            inputCorrect = false;
+        }
+        else if (this.state.password !== this.state.confirm_pwd) {
+            element.classList.add("is-invalid");
+            document.querySelector("#input_cpwd-invalid").innerText = "Passwords do not match";
+            inputCorrect = false;
+        }
+
+        if (inputCorrect) {
+            const payload = {
+                username: this.state.username,
+                password: this.state.password
+            }
+
+            axios({
+                // need change localhost to the publicIP
+                url: "http://localhost:8080/newuser",
+                method: "POST",
+                data: payload
+            })
+            .then(() => {
+                
+            })
+            .catch((err) => {
+                if (err.response.status === 406) {
+                    element = document.querySelector("#input_username");
+                    element.classList.add("is-invalid");
+                    document.querySelector("#input_username-invalid").innerText = "Username already exists";
+                }
+                else {
+                    console.log("Internal server error");
+                }
+            });
+        }
+    } 
 
     render() {
         return (
@@ -136,7 +205,7 @@ class Signup extends Component {
                         </div>
 
                         <div className="d-flex justify-content-center py-3">
-                            <button type="button" className="btn btn-primary">SIGN UP</button>
+                            <button type="button" className="btn btn-primary" onClick={this.submit}>SIGN UP</button>
                         </div>
                     </div>
                 </div>

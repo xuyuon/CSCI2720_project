@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-class Location extends Component {
+class User extends Component {
 
     render() {
         return (
-			<main className="col">
-                Location
+            <main className="col">
+                User
             </main>
         );
     }
 }
 
-export default Location;
+export default User;
