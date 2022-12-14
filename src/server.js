@@ -68,6 +68,31 @@ app.post("/newuser", (req, res) => {
     });
 });
 
+// login
+app.post("/login", (req, res) => {
+    Access.findOne({username: req.body["username"]}, (err, e) => {
+        if (err) {
+            res.send(e);
+        }
+        else if (e === null) {
+            res.status(401);
+            res.send();
+        }
+        else {
+            if (e.password !== req.body["password"]) {
+                res.status(401);
+                res.send();
+            }
+            else {
+                res.status(200);
+                res.send(e);
+            }
+        }
+    });
+});
+
+
+
 //show specific location data
 //not done
 app.get('/lo/:name', (req,res) => { 
