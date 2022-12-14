@@ -91,7 +91,18 @@ app.post("/login", (req, res) => {
     });
 });
 
-
+// get username
+app.get("/lo", (req, res) => {
+    Access.findOne({username: req.body["username"]}, (err, e) => {
+        if (err) {
+            res.send(e);
+        }
+        else if (e === null) {
+            res.status(401);
+            res.send();
+        }
+    });
+});
 
 //show specific location data
 //not done
