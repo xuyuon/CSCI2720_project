@@ -257,6 +257,10 @@ class UserRow extends Component {
 
         // check username
         let elementUsername = document.querySelector("#update_username" + this.props.i);
+        if (elementUsername.style.display === "none") {
+            return;
+        }
+        
         username = elementUsername.value;
         if (username === "") {
             elementUsername.classList.add("is-invalid");
@@ -303,7 +307,7 @@ class UserRow extends Component {
             .catch((err) => {
                 if (err.response.status === 406) {
                     elementUsername.classList.add("is-invalid");
-                    document.querySelector("#create_username" + this.props.i + "-invalid").innerText = "Username already exists";
+                    document.querySelector("#update_username" + this.props.i + "-invalid").innerText = "Username already exists";
                 }
                 else {
                     console.log("Internal server error");
