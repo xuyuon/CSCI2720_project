@@ -149,7 +149,9 @@ class Signup extends Component {
                 data: payload
             })
             .then(() => {
-                
+                sessionStorage.setItem("username", this.state.username);
+                sessionStorage.setItem("isAdmin", this.state.password);
+                window.location.replace("http://localhost:3000/dashboard/location");
             })
             .catch((err) => {
                 if (err.response.status === 406) {

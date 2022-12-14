@@ -92,6 +92,7 @@ class Login extends Component {
             .then((r) => {
                 sessionStorage.setItem("username", r.data.username);
                 sessionStorage.setItem("isAdmin", r.data.isAdmin);
+                window.location.replace("http://localhost:3000/dashboard/location");
             })
             .catch((err) => {
                 if (err.response.status === 401) {
