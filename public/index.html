@@ -96,7 +96,38 @@
                 })
 
     }
+     
+    // Initialize and add the map
+    function initMap() {
+  
+            // The location of Geeksforgeeks office
+            const gfg_office = {
+                lat: 28.50231,
+                lng: 77.40548
+            };
+  
+            // Create the map, centered at gfg_office
+            const map = new google.maps.Map(
+                    document.getElementById("map"), {
+  
+                // Set the zoom of the map
+                zoom: 17.56,
+                center: gfg_office,
+            });
+     }
     </script>
+    
+    //copy from https://developers.google.com/maps/documentation/embed/get-started
+    <iframe
+      width="600"
+      height="450"
+      style="border:0"
+      loading="lazy"
+      allowfullscreen
+      referrerpolicy="no-referrer-when-downgrade"
+      src="https://www.google.com/maps/embed/v1/place?key=API_KEY //need to generate a key, but i fail
+        &q=Space+Needle,Seattle+WA">
+    </iframe>
     
   </head>
   <body>
@@ -112,6 +143,9 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <!--The div element for the API map -->
+    <div id="map"></div>
     
     <input type="text" id="myInput" onkeyup="searchLocation()" placeholder="Search for Locations..">
 
