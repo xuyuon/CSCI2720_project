@@ -104,7 +104,46 @@ app.post("/users", (req, res) => {
             res.status(200);
             res.send(e);
         }
-    })
+    });
+});
+
+// delete user
+app.delete('/deleteuser', (req, res) => {
+    Access.deleteOne(
+        {username: req.body["username"]},
+        (err, e) => {
+            if (err || e.deletedCount === 0) {
+                res.status(404);
+                res.send();
+            }
+            else {
+                res.status(204);
+                res.send();
+            }
+        }
+    );
+});
+
+// update user
+app.post('/updateuser', (req, res) => {
+    Access.findOneAndUpdate(
+        {_id: req.body["id"]},
+        {
+            username: req.body["username"],
+            password: req.body["password"]
+        },
+        null,
+        (err) => {
+            if (err) {
+                res.status(406);
+                res.send();
+            }
+            else {
+                res.status(200);
+                res.send();
+            }
+        }
+    );
 });
 
 //show specific location data

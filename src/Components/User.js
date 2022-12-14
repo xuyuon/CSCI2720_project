@@ -172,7 +172,7 @@ class User extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.usersList.map((user, index) => <UserRow key={index} i={index} username={user.username} password={user.password} />)}
+                            {this.state.usersList.map((user, index) => <UserRow key={index} i={index} username={user.username} password={user.password} id={user._id} loadData={this.loadData}/>)}
                         </tbody>
                     </table>
                 </div>
@@ -182,23 +182,155 @@ class User extends Component {
 }
 
 class UserRow extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            newUsername: "",
-            newPwd: ""
+
+    deleteUser = (e) => {
+        const payload = {
+            username: this.props.username,
+        };
+
+        axios({
+            // need change localhost to the publicIP
+            url: "http://localhost:8080/deleteuser",
+            method: "DELETE",
+            data: payload
+        })
+        .then((e) => {
+            this.props.loadData();
+        })
+        .catch((err) => console.log(err))
+    }
+
+    toggleEdit = (e) => {
+        let element = document.querySelector("#update_username" + this.props.i);
+        if (element.style.display === "none") {
+            element.style.display = "block";
+            document.querySelector("#update_pwd" + this.props.i).style.display = "block";
+        }
+        else {
+            this.hideEdit();
+        }
+    }
+
+    hideEdit = (e) => {
+        let element = document.querySelector("#update_username" + this.props.i);
+        element.value = "";
+        element.style.display = "none";
+        element.classList.remove("is-invalid");
+        document.querySelector("#update_pwd" + this.props.i).value = "";
+        document.querySelector("#update_pwd" + this.props.i).style.display = "none";
+        document.querySelector("#update_pwd" + this.props.i).classList.remove("is-invalid");
+        document.querySelector("#update_username" + this.props.i + "-invalid").innerText = "";
+        document.querySelector("#update_pwd" + this.props.i + "-invalid").innerText = "";
+    }
+
+    validateUpdateInput = (e) => {
+        if (e.target.checkValidity()) {
+            if (String(e.target.value).length < 4 || String(e.target.value).length > 20) {
+                if (e.target.id === "update_username" + this.props.i) {
+                    document.querySelector("#" + e.target.id + "-invalid").innerText = "Username must be between 4 and 20 characters";
+                }
+                else if (e.target.id === "update_pwd" + this.props.i) {
+                    document.querySelector("#" + e.target.id + "-invalid").innerText = "Password must be between 4 and 20 characters";
+                }
+            }
+            else {
+                e.target.classList.remove("is-invalid");
+                document.querySelector("#" + e.target.id + "-invalid").innerHTML = "";
+            }
+        }
+        else {
+            e.target.classList.add("is-invalid");
+
+            if (e.target.id === "update_username"  + this.props.i) {
+                document.querySelector("#" + e.target.id + "-invalid").innerText = "Please enter username";
+            }
+            else if (e.target.id === "update_pwd"  + this.props.i) {
+                document.querySelector("#" + e.target.id + "-invalid").innerText = "Please enter password";
+            }
+        }
+    }
+
+    updateUser = (e) => {
+        let inputCorrect = true;
+        let username = "";
+        let password = "";
+
+        // check username
+        let elementUsername = document.querySelector("#update_username" + this.props.i);
+        username = elementUsername.value;
+        if (username === "") {
+            elementUsername.classList.add("is-invalid");
+            document.querySelector("#update_username" + this.props.i + "-invalid").innerText = "Please enter username";
+            inputCorrect = false;
+        }
+        else if (String(username).length < 4 || String(username).length > 20) {
+            elementUsername.classList.add("is-invalid");
+            document.querySelector("#update_username" + this.props.i + "-invalid").innerText = "Username must be between 4 and 20 characters";
+            inputCorrect = false;
+        }
+
+        // check password
+        let elementPwd = document.querySelector("#update_pwd" + this.props.i);
+        password = elementPwd.value;
+        if (password === "") {
+            elementPwd.classList.add("is-invalid");
+            document.querySelector("#update_pwd" + this.props.i + "-invalid").innerText = "Please enter password";
+            inputCorrect = false;
+        }
+        else if (String(password).length < 4 || String(password).length > 20) {
+            elementPwd.classList.add("is-invalid");
+            document.querySelector("#update_pwd" + this.props.i + "-invalid").innerText = "Password must be between 4 and 20 characters";
+            inputCorrect = false;
+        }
+        
+        if (inputCorrect) {
+            const payload = {
+                id: this.props.id,
+                username: username,
+                password: password
+            }
+
+            axios({
+                // need change localhost to the publicIP
+                url: "http://localhost:8080/updateuser",
+                method: "POST",
+                data: payload
+            })
+            .then(() => {
+                this.hideEdit();
+                this.props.loadData();
+            })
+            .catch((err) => {
+                if (err.response.status === 406) {
+                    elementUsername.classList.add("is-invalid");
+                    document.querySelector("#create_username" + this.props.i + "-invalid").innerText = "Username already exists";
+                }
+                else {
+                    console.log("Internal server error");
+                }
+            });
         }
     }
 
     render() {
         return (
             <tr>
-                <td>{this.props.username}</td>
-                <td>{this.props.password}</td>
                 <td>
-                    <button type="button" className="btn btn-success my-1">Update User</button>
+                    {this.props.username}
+                    <input type="text" placeholder="Username" className="form-control mt-3" id={"update_username" + this.props.i} style={{display: "none"}} onBlur={this.validateUpdateInput} required/>
+                    <div id={"update_username"  + this.props.i + "-invalid"} className="text-danger"></div>
+                </td>
+                <td>
+                    {this.props.password}
+                    <input type="text" placeholder="Username" className="form-control mt-3" id={"update_pwd" + this.props.i} style={{display: "none"}} onBlur={this.validateUpdateInput} required/>
+                    <div id={"update_pwd" + this.props.i + "-invalid"} className="text-danger"></div>
+                </td>
+                <td>
+                    <button type="button" className="btn btn-warning my-1" onClick={this.toggleEdit}>Edit User</button>
+                    &nbsp;&nbsp;
+                    <button type="button" className="btn btn-success my-1" onClick={this.updateUser}>Update User</button>
                     <br/>
-                    <button type="button" className="btn btn-danger my-1">Delete User</button>
+                    <button type="button" className="btn btn-danger my-1" onClick={this.deleteUser}>Delete User</button>
                 </td>
             </tr>
         );
