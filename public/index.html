@@ -85,6 +85,7 @@
     }
     
     //idk fetch to which url
+    //load location when click it
     function Load(){
                 fetch('http://localhost:3000/lo' + document.getElementById('loc1').value, {
                     method: 'GET',
@@ -96,8 +97,44 @@
                 })
 
     }
-     
-    // Initialize and add the map
+    
+    function sortTable() {
+    var table, rows, switching, i, x, y, shouldSwitch;
+    table = document.getElementById("myTable");
+    switching = true;
+      
+    // Make a loop that will continue until no switching has been done://
+    while (switching) {
+      //start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      
+      // Loop through all table rows (except the first, which contains table headers)://
+      for (i = 1; i < (rows.length - 1); i++) {
+        //start by saying there should be no switching:
+        shouldSwitch = false;
+        
+        //Get the two elements you want to compare, one from current row and one from the next://
+        x = rows[i].getElementsByTagName("TD")[0];
+        y = rows[i + 1].getElementsByTagName("TD")[0];
+        
+        //check if the two rows should switch place:
+        if (Number(x.innerHTML) > Number(y.innerHTML)) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+      if (shouldSwitch) {
+        /*If a switch has been marked, make the switch
+        and mark that a switch has been done:*/
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+      }
+    }
+}  
+    
+    // API action: Initialize and add the map
     function initMap() {
   
             // The location of Geeksforgeeks office
@@ -117,7 +154,7 @@
      }
     </script>
     
-    //copy from https://developers.google.com/maps/documentation/embed/get-started
+    //copy from https://developers.google.com/maps/documentation/embed/get-started, idk if it is useful
     <iframe
       width="600"
       height="450"
@@ -147,26 +184,35 @@
     <!--The div element for the API map -->
     <div id="map"></div>
     
+    <!--search loc-->
     <input type="text" id="myInput" onkeyup="searchLocation()" placeholder="Search for Locations..">
 
+    <!--List and sort all locations in a table as links to single locations-->
+    
+    <p><button onclick="sortTable()">Sort</button></p>
+    
     <table id="myTable">
       <tr class="header">
         <th style="width:60%;">Location</th>
         <th style="width:40%;">Event</th>
       </tr>
       <tr id="loc1" onclick= "Load()">
+        <td>no of event</td>
         <td>loc</td>
         <td>ev</td>
       </tr>
       <tr id="loc2" onclick= "Load()">
+        <td>no of event</td>
         <td>loc</td>
         <td>ev</td>
       </tr>
       <tr id="loc3" onclick= "Load()">
+        <td>no of event</td>
         <td>loc</td>
         <td>ev</td>
       </tr>
       <tr id="loc4" onclick= "Load()">
+        <td>no of event</td>
         <td>loc</td>
         <td>ev</td>
       </tr>
