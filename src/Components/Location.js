@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 class Location extends Component {
     constructor(props) {
@@ -30,9 +33,18 @@ class Location extends Component {
 
 
     render() {
+
+        let username = sessionStorage.getItem("username");
+        if (username === null) {
+			window.location.replace("http://localhost:3000/");
+		}
+
         return (
 			<main className="col">
-                <h3> Location</h3>
+                <div className="my-3 d-flex justify-content-between">
+                    <h2 className="text-primary">Location</h2>
+                    <h3 ><b className="text-primary">{username}</b>&nbsp;<i className="bi bi-person-circle"></i></h3>
+                </div>
             </main>
         );
     }
