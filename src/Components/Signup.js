@@ -6,10 +6,13 @@ import axios from 'axios';
 
 class Signup extends Component {
 
-    state = {
-        username: "",
-        password: "",
-        confirm_pwd: ""
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: "",
+            confirm_pwd: ""
+        }
     }
 
     handleUsernameChange = (e) => {

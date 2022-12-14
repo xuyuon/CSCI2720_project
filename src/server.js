@@ -75,7 +75,7 @@ app.post("/newuser", (req, res) => {
 app.post("/login", (req, res) => {
     Access.findOne({username: req.body["username"]}, (err, e) => {
         if (err) {
-            res.send(e);
+            res.send(err);
         }
         else if (e === null) {
             res.status(401);
@@ -94,17 +94,17 @@ app.post("/login", (req, res) => {
     });
 });
 
-// get username
-app.get("/lo", (req, res) => {
-    Access.findOne({username: req.body["username"]}, (err, e) => {
+// get users data
+app.post("/users", (req, res) => {
+    Access.find({}, (err, e) => {
         if (err) {
+            res.send(err);
+        }
+        else {
+            res.status(200);
             res.send(e);
         }
-        else if (e === null) {
-            res.status(401);
-            res.send();
-        }
-    });
+    })
 });
 
 //show specific location data

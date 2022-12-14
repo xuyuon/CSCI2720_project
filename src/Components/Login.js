@@ -6,9 +6,12 @@ import axios from 'axios';
 
 class Login extends Component {
 
-    state = {
-        username: "",
-        password: ""
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: "",
+            password: ""
+        }
     }
 
     clearText = () => {
