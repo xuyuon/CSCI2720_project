@@ -10,11 +10,11 @@ npm run dev
 ```
 ## Application Requirements
 * User Actions
-- [ ] List all locations in a table, and allow sorting of the table with one of the listed fields, 
-linking to single locations
+- [ ] List all locations in a table as links to single locations, and allow sorting of the table 
+with i) number of events at venue, or ii) min and max traffic speed of road
 - [ ] Show all locations in a map, with links to each single location
-- [ ] Search for locations which contain keywords in one field chosen by the user which 
-will result in a table of location results
+- [ ] Search for locations which contain keywords in the name which will result in a table of 
+location results
 - [ ] A separate view for one single location, containing:
     * a map showing the location
     * the location details (events or traffic speed)
@@ -22,9 +22,6 @@ will result in a table of location results
 - [ ] Add location into a list of user’s favourite locations, and see the list in another view
 - [x] See the username in the top left/right of screen, and be able to log out
 * Admin Actions
-- [ ] Request updated data of events or road names, i.e., reload from the online dataset, 
-without affecting data which does not come from API (e.g., user comments within 
-your app)
 - [ ] CRUD stored event details or road names in the local database
     * We will not test other features (e.g., map, comments) if deleting an existing location
 - [ ] CRUD user data (username and password only) in the local database
