@@ -63,8 +63,7 @@
   
     <!--feel free to move this script to js file because idk which js file-->
     <script>
-    function myFunction() {
-      // Declare variables
+    function searchLocation() {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput");
       filter = input.value.toUpperCase();
@@ -101,30 +100,31 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Locations..">
+    <input type="text" id="myInput" onkeyup="searchLocation()" placeholder="Search for Locations..">
 
     <table id="myTable">
       <tr class="header">
-        <th style="width:60%;">Event</th>
-        <th style="width:40%;">Location</th>
+        <th style="width:60%;">Location</th>
+        <th style="width:40%;">Event</th>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
+      <tr id="loc1">
+        <td>loc</td>
+        <td>ev</td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
+      <tr id="loc2">
+        <td>loc</td>
+        <td>ev</td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
+      <tr id="loc3">
+        <td>loc</td>
+        <td>ev</td>
       </tr>
-      <tr>
-        <td></td>
-        <td></td>
+      <tr id="loc4">
+        <td>loc</td>
+        <td>ev</td>
       </tr>
     </table>
+    
   </body>
 </html>
 <!--test-->
