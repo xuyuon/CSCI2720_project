@@ -68,4 +68,36 @@ app.post("/newuser", (req, res) => {
     });
 });
 
+//show specific location data
+//not done
+app.get('/lo/:name', (req,res) => { 
+        Location.findOne({name: req.params['name']})
+        .exec(function (err, e) {
+            if (err)
+                res.send(err);
+            else {
+                if (e==null) {
+                    res.status(404).send();
+                }
+                else {
+                    res.send(JSON.stringify(obj, null, 0.5));
+                }
+            }
+       });
+});
+
+//show all location data
+//not done
+app.get('/lo', (req,res) => { 
+        Location.find({}, (err, e) => {
+        if (e.length > 0) {
+                if (err)
+                    res.send(err);
+                else { 
+                    res.send(JSON.stringify(e, null, 0.5));
+                }
+            }   
+        });
+});
+
 app.listen(8080);
