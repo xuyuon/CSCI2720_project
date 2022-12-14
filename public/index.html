@@ -59,10 +59,29 @@
       /* Add a grey background color to the table header and on hover */
       background-color: #f1f1f1;
     }
+      
+    #username {
+      left: 0;
+      top: 0;
+      position: sticky;
+    }
     </style>
   
     <!--feel free to move this script to js file because idk which js file-->
     <script>
+    let k = 2; //show up indicator
+
+    function showup() { //show special
+      k++;
+      var x = document.getElementById('username')
+      if(k%2 == 1){
+          x.style.display = 'block';
+      }
+      else if(k%2 == 0){
+          x.style.display = 'none';
+      }
+    }
+    
     function searchLocation() {
       var input, filter, table, tr, td, i, txtValue;
       input = document.getElementById("myInput");
@@ -131,7 +150,8 @@
         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
         switching = true;
       }
-    }
+    }     
+    }  
       
     //idk fetch to which url
     //Get the username in the top left/right of screen
@@ -144,8 +164,6 @@
           document.getElementById('username').value = JSON.parse(res).username;
     }
           
-}  
-    
     // API action: Initialize and add the map
     function initMap() {
   
@@ -193,7 +211,9 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
     
-    <div id="username"></div>
+    <!--logout, not done-->
+    <div id="username" onclick="showup()"></div>
+    <div class="collapse" id="logout"></div>
     
     <!--The div element for the API map -->
     <div id="map"></div>
