@@ -6,7 +6,18 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 class Navbar extends Component {
 
+	Logout = (e) => {
+		sessionStorage.clear();
+		window.location.replace("http://localhost:3000/");
+	}
+
     render() {
+
+		let isAdmin = sessionStorage.getItem("isAdmin");
+		if (isAdmin === null) {
+			window.location.replace("http://localhost:3000/");
+		}
+
         return (
 		    	<nav className="navbar navbar-dark bg-primary vh-100 sticky-top">
 		    		<ul className="navbar-nav">
@@ -20,16 +31,20 @@ class Navbar extends Component {
 		    				<li className="navbar-item my-3">
 		    					<Link className="nav-link" to={"/dashboard/favourite"}><h5><i className="bi bi-heart-fill"></i>&nbsp;Favourite</h5></Link>
 		    				</li>
+							{isAdmin === "true" &&
+							<div>
 							<li className="navbar-item my-3">
 		    					<Link className="nav-link" to={"/dashboard/user"}><h5><i className="bi bi-people-fill"></i>&nbsp;User Data</h5></Link>
 		    				</li>
 							<li className="navbar-item my-3">
 		    					<Link className="nav-link" to={"/dashboard/place"}><h5><i className="bi bi-geo-alt-fill"></i>&nbsp;Place Data</h5></Link>
 		    				</li>
+							</div>
+							}
 						</div>
 		    		</ul>
 					<div className="text-center w-100">
-							<button type="button" className="btn btn-secondary">LOG OUT</button>
+							<button type="button" className="btn btn-secondary" onClick={this.Logout}>LOG OUT</button>
 					</div>
 		    	</nav>
         );
