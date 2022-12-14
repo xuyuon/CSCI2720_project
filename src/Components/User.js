@@ -31,6 +31,108 @@ class User extends Component {
         .catch((err) => console.log("Internal server error"));
     }
 
+    showCreateInput = (e) => {
+        document.querySelector("#create-user").style.display = "block";
+    }
+
+    hideCreateInput = (e) => {
+        document.querySelector("#create_username").value = "";
+        document.querySelector("#create_username").classList.remove("is-invalid");
+        document.querySelector("#create_username-invalid").innerText = "";
+        document.querySelector("#create_pwd").value = "";
+        document.querySelector("#create_pwd").classList.remove("is-invalid");
+        document.querySelector("#create_pwd-invalid").innerText = "";
+        document.querySelector("#create-user").style.display = "none";
+    }
+
+    validateCreateInput = (e) => {
+        if (e.target.checkValidity()) {
+            if (String(e.target.value).length < 4 || String(e.target.value).length > 20) {
+                if (e.target.id === "create_username") {
+                    document.querySelector("#" + e.target.id + "-invalid").innerText = "Username must be between 4 and 20 characters";
+                }
+                else if (e.target.id === "create_pwd") {
+                    document.querySelector("#" + e.target.id + "-invalid").innerText = "Password must be between 4 and 20 characters";
+                }
+            }
+            else {
+                e.target.classList.remove("is-invalid");
+                document.querySelector("#" + e.target.id + "-invalid").innerHTML = "";
+            }
+        }
+        else {
+            e.target.classList.add("is-invalid");
+
+            if (e.target.id === "create_username") {
+                document.querySelector("#" + e.target.id + "-invalid").innerText = "Please enter username";
+            }
+            else if (e.target.id === "create_pwd") {
+                document.querySelector("#" + e.target.id + "-invalid").innerText = "Please enter password";
+            }
+        }
+    }
+
+    createUser = (e) => {
+        let inputCorrect = true;
+        let username = "";
+        let password = "";
+
+        // check username
+        let elementUsername = document.querySelector("#create_username");
+        username = elementUsername.value;
+        if (username === "") {
+            elementUsername.classList.add("is-invalid");
+            document.querySelector("#create_username-invalid").innerText = "Please enter username";
+            inputCorrect = false;
+        }
+        else if (String(username).length < 4 || String(username).length > 20) {
+            elementUsername.classList.add("is-invalid");
+            document.querySelector("#create_username-invalid").innerText = "Username must be between 4 and 20 characters";
+            inputCorrect = false;
+        }
+
+        // check password
+        let elementPwd = document.querySelector("#create_pwd");
+        password = elementPwd.value;
+        if (password === "") {
+            elementPwd.classList.add("is-invalid");
+            document.querySelector("#create_pwd-invalid").innerText = "Please enter password";
+            inputCorrect = false;
+        }
+        else if (String(password).length < 4 || String(password).length > 20) {
+            elementPwd.classList.add("is-invalid");
+            document.querySelector("#create_pwd-invalid").innerText = "Password must be between 4 and 20 characters";
+            inputCorrect = false;
+        }
+
+        if (inputCorrect) {
+            const payload = {
+                username: username,
+                password: password
+            }
+
+            axios({
+                // need change localhost to the publicIP
+                url: "http://localhost:8080/newuser",
+                method: "POST",
+                data: payload
+            })
+            .then(() => {
+                this.hideCreateInput();
+                this.loadData();
+            })
+            .catch((err) => {
+                if (err.response.status === 406) {
+                    elementUsername.classList.add("is-invalid");
+                    document.querySelector("#create_username-invalid").innerText = "Username already exists";
+                }
+                else {
+                    console.log("Internal server error");
+                }
+            });
+        }
+    }
+
     render() {
         let username = sessionStorage.getItem("username");
         if (username === null) {
@@ -45,7 +147,21 @@ class User extends Component {
                 </div>
                 <div>
                     <h1 className="my-3">Users Manage</h1>
-                    <button type="button" className="btn btn-primary" onClick={this.loadData}>Create New User</button>
+                    <button type="button" className="btn btn-primary my-3" onClick={this.showCreateInput}>Create New User</button>
+
+                    <div id="create-user" className="border border-info w-50 rounded" style={{display: "none"}}>
+                        <input type="text" placeholder="Username" className="form-control mx-3 mt-3 w-75" id="create_username" onBlur={this.validateCreateInput} required/>
+                        <div id="create_username-invalid" className="text-danger mx-3"></div>
+                        <br/>
+                        <input type="password" placeholder="Password" className="form-control mx-3 w-75" id="create_pwd" onBlur={this.validateCreateInput} required/>
+                        <div id="create_pwd-invalid" className="text-danger mx-3"></div>
+                        <div className="m-3">
+                            <button type="button" className="btn btn-primary" onClick={this.createUser}>Create</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button type="button" className="btn btn-danger" onClick={this.hideCreateInput}>Cancel</button>
+                        </div>
+                    </div>
+
                     <h3 className="my-3">Users Table</h3>
                     <table className="table table-hover">
                         <thead>
