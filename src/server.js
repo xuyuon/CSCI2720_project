@@ -6,6 +6,9 @@ const app = express();
 const cors = require('cors');
 app.use(cors());
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const https = require('https');
+const xml2js = require('xml2js');
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -134,6 +137,32 @@ app.get('/lo', (req,res) => {
                 }
             }   
         });
+});
+
+var file_dir_xml = __dirname + '/XMLfiles/';
+app.post('/getXML', (req, res) => {
+    var url = 'https://www.lcsd.gov.hk/datagovhk/event/events.xml';
+    var url2 = 'https://www.lcsd.gov.hk/datagovhk/event/venues.xml';
+    var url3 = 'https://www.lcsd.gov.hk/datagovhk/event/eventDates.xml';
+    var file_name = 'events.xml';
+    var file_name2 = 'venues.xml';
+    var file_name3 = 'eventDates.xml';
+    //will create if not exist*
+    var file = fs.createWriteStream(file_dir_xml + file_name, {'flags': 'w'});
+    const get = https.get(url, (response) => {
+        response.pipe(file);
+        console.log('saved file in XMLfiles!');
+    });
+    var file2 = fs.createWriteStream(file_dir_xml + file_name2, {'flags': 'w'});
+    const get2 = https.get(url, (response) => {
+        response.pipe(file2);
+        console.log('saved file2 in XMLfiles!');
+    });
+    var file3 = fs.createWriteStream(file_dir_xml + file_name3, {'flags': 'w'});
+    const get3 = https.get(url, (response) => {
+        response.pipe(file3);
+        console.log('saved file3 in XMLfiles!');
+    });
 });
 
 app.listen(8080);
