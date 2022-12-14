@@ -24,7 +24,7 @@ location results
 * Admin Actions
 - [ ] CRUD stored event details or road names in the local database
     * We will not test other features (e.g., map, comments) if deleting an existing location
-- [ ] CRUD user data (username and password only) in the local database
+- [x] CRUD user data (username and password only) in the local database
     * We will not test other features (e.g., comments) if deleting an existing user
 - [x] Log out as admin
 * Non-user Actions
