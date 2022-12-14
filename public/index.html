@@ -136,9 +136,7 @@
     //load location when click it
     function Load(){
         console.log("hi");
-        fetch('http://localhost:3000/lo' + document.getElementById('loc1').value, {
-              method: 'GET',
-        })
+        fetch('http://localhost:3000/lo', {method: 'GET'})
         .then(res => res.text())
         .then(res => {
               console.log(res)
