@@ -132,6 +132,18 @@
         switching = true;
       }
     }
+      
+    //idk fetch to which url
+    //Get the username in the top left/right of screen
+    fetch('http://localhost:3000/lo' + document.getElementById('loc1').value, {
+          method: 'GET',
+    })
+    .then(res => res.text())
+    .then(res => {
+          console.log(res)
+          document.getElementById('username').value = JSON.parse(res).username;
+    }
+          
 }  
     
     // API action: Initialize and add the map
@@ -154,7 +166,7 @@
      }
     </script>
     
-    //copy from https://developers.google.com/maps/documentation/embed/get-started, idk if it is useful
+    <!--copy from https://developers.google.com/maps/documentation/embed/get-started, idk if it is useful-->
     <iframe
       width="600"
       height="450"
@@ -180,7 +192,9 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-
+    
+    <div id="username"></div>
+    
     <!--The div element for the API map -->
     <div id="map"></div>
     
