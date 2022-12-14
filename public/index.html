@@ -83,6 +83,19 @@
         }
       }
     }
+    
+    //idk fetch to which url
+    function Load(){
+                fetch('http://localhost:3000/lo' + document.getElementById('loc1').value, {
+                    method: 'GET',
+                })
+                .then(res => res.text())
+                .then(res => {
+                    console.log(res)
+                    document.getElementById('showLoc').value = JSON.parse(res);
+                })
+
+    }
     </script>
     
   </head>
@@ -107,24 +120,24 @@
         <th style="width:60%;">Location</th>
         <th style="width:40%;">Event</th>
       </tr>
-      <tr id="loc1">
+      <tr id="loc1" onclick= "Load()">
         <td>loc</td>
         <td>ev</td>
       </tr>
-      <tr id="loc2">
+      <tr id="loc2" onclick= "Load()">
         <td>loc</td>
         <td>ev</td>
       </tr>
-      <tr id="loc3">
+      <tr id="loc3" onclick= "Load()">
         <td>loc</td>
         <td>ev</td>
       </tr>
-      <tr id="loc4">
+      <tr id="loc4" onclick= "Load()">
         <td>loc</td>
         <td>ev</td>
       </tr>
     </table>
-    
+    <div id= "showLoc"></div>
   </body>
 </html>
 <!--test-->
