@@ -10,6 +10,7 @@
     "body-parser": "^1.20.1",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.2",
+    "concurrently": "^7.6.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^6.8.0",
@@ -24,7 +25,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently -n server,client -c red,green  \"nodemon src/server.js\" \"npm start\""
   },
   "eslintConfig": {
     "extends": [
