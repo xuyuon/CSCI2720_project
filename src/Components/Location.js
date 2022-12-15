@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -12,24 +12,9 @@ class Location extends Component {
         }
     }
 
-    componentDidMount() {//load for each set state(just want once=> new class + new componentdidmount)
-        axios({
-            // need change localhost to the publicIP
-            url: "http://localhost:8080/getXML",
-            method: "post"
-        })
-        .then(() => {
-            
-        })
-        .catch((err) => {
-            if (err.response.status === 406) {
-                
-            }
-            else {
-                console.log("Internal server error");
-            }
-        });
-    }
+    // componentDidMount() {//load for each set state(just want once=> new class + new componentdidmount)
+
+    // }
 
 
     searchLocation() { //search keyword
