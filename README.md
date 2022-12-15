@@ -11,7 +11,7 @@ npm run dev
 ## Application Requirements
 * User Actions
 - [ ] List all locations in a table as links to single locations, and allow sorting of the table 
-with i) number of events at venue, or ii) min and max traffic speed of road
+with number of events at venue
 - [ ] Show all locations in a map, with links to each single location
 - [ ] Search for locations which contain keywords in the name which will result in a table of 
 location results
