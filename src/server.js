@@ -150,8 +150,8 @@ app.post('/updateuser', (req, res) => {
 
 //show specific location data
 //not done
-app.get('/lo/:name', (req,res) => { 
-        Location.findOne({name: req.params['name']})
+app.get('/location/loc1', (req,res) => { 
+        Location.findOne({name: "Sha Tin Town Hall (Auditorium)"})
         .exec(function (err, e) {
             if (err)
                 res.send(err);
@@ -168,7 +168,7 @@ app.get('/lo/:name', (req,res) => {
 
 //show all location data
 //not done
-app.get('/lo', (req,res) => { 
+app.get('/location', (req,res) => { 
         Location.find({}, (err, e) => {
         if (e.length > 0) {
                 if (err)
