@@ -31,18 +31,6 @@ class Location extends Component {
         });
     }
 
-    k = 2; //show up indicator
-
-     showup() { //show logout
-      k++;
-      var x = document.getElementById('logout');
-      if(k%2 == 1){
-          x.style.display = 'block';
-      }
-      else if(k%2 == 0){
-          x.style.display = 'none';
-      }
-    }
 
     searchLocation() { //search keyword
         var input, filter, table, tr, td, i, txtValue;
@@ -108,27 +96,24 @@ class Location extends Component {
 			window.location.replace("http://localhost:3000/");
 		}
 
-        return (
+        return ( //i add something behind, u may delete sth when it is overlapped
 			<main className="col">
                 <div className="my-3 d-flex justify-content-between">
                     <h2 className="text-primary">Location</h2>
                     <h3 ><b className="text-primary">{username}</b>&nbsp;<i className="bi bi-person-circle"></i></h3>
                 </div>
+                
 
-                <button id="username" onclick={() => this.showup()}>username</button>
-                    <button class="collapse" id="logout" onclick="logout()">logout</button>
-                
-                <div id="map"></div>
-                
+
                 <input type="text" id="myInput" value={this.state.search} onchange={(value) => this.setState({search: value.target.value})} onkeyup={() => this.searchLocation()} placeholder="Search for Locations.." />
                 
                 <p><button onclick={() => this.sortTable()}>Sort</button></p>
                 
                 <table id="myTable">
                 <tr class="header">
-                    <th style="width:60%;">Location</th>
-                    <th style="width:30%;">Event</th>
-                    <th style="width:10%;">Favourite Location</th>
+                    <th>Location</th>
+                    <th>Event</th>
+                    <th>Favourite Location</th>
                 </tr>
                 <tr id="loc1" onclick= "Load()">
                     <td>loc1</td>
