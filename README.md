@@ -8,7 +8,7 @@ npm install
 ```
 npm start
 ```
-* Run the Server (backend)
+* Run the server (backend)
 ```
 cd src
 ```
