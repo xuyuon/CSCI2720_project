@@ -232,11 +232,11 @@ app.post('/getXML', (req, res) => {
                         else {
                             result.venues.venue.map((value, index) => {//have url of event
                                 if (value.latitude != '' && value.longitude != ''){
-                                    //console.log(value);
-                                    console.log(value.venuee[0].replace(/\s+/g, ''));
+                                    // console.log(value);
+                                    // console.log(value.venuee[0].replace(/\s+/g, ''));
                                         Location.create({
                                             name: value.venuee[0],
-                                            locId: value.venuee[0].replace(/\s+/g, ''),
+                                            locId: value.venuee[0].replace(/\s+/g, ''), // remove all space in name to create locId.
                                             latitude: value.latitude[0],
                                             longitude: value.longitude[0]
                                         }, (err, e) => {
