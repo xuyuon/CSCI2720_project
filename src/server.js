@@ -31,6 +31,7 @@ lastUpdate: { type: Date, default: Date.now }
 
 const LocationSchema = new Schema({
 name: { type: String, required: true },
+locId: {type: String}, // I havent made it "required" yet, in case it causes trouble to other parts
 latitude: { type: Number, required: true },
 longitude: {type: Number, required: true },
 programme: [{ type: Schema.Types.ObjectId, ref: "Programme" }]
@@ -150,21 +151,23 @@ app.post('/updateuser', (req, res) => {
 
 //show specific location data
 //not done
-app.get('/location/loc1', (req,res) => { 
-        Location.findOne({name: "Sha Tin Town Hall (Auditorium)"})
+app.get('/location/:locId', (req,res) => { 
+        Location.findOne({locId: req.params.locId})
         .exec(function (err, e) {
             if (err)
                 res.send(err);
             else {
-                if (e==null) {
+                if (e == null) { // when there is no such locId
                     res.status(404).send();
                 }
                 else {
-                    res.send(JSON.stringify(obj, null, 0.5));
+                    res.send(JSON.stringify(e, null, 0.5));
                 }
             }
        });
 });
+
+
 
 //show all location data
 //not done
@@ -230,8 +233,10 @@ app.post('/getXML', (req, res) => {
                             result.venues.venue.map((value, index) => {//have url of event
                                 if (value.latitude != '' && value.longitude != ''){
                                     //console.log(value);
+                                    console.log(value.venuee[0].replace(/\s+/g, ''));
                                         Location.create({
                                             name: value.venuee[0],
+                                            locId: value.venuee[0].replace(/\s+/g, ''),
                                             latitude: value.latitude[0],
                                             longitude: value.longitude[0]
                                         }, (err, e) => {
