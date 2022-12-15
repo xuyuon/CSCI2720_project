@@ -103,55 +103,53 @@ class Location extends Component {
                     <h3 ><b className="text-primary">{username}</b>&nbsp;<i className="bi bi-person-circle"></i></h3>
                 </div>
                 
-
-
-                <input type="text" id="myInput" value={this.state.search} onchange={(value) => this.setState({search: value.target.value})} onkeyup={() => this.searchLocation()} placeholder="Search for Locations.." />
+                <input type="text" id="myInput" value={this.state.search} onChange={(value) => this.setState({search: value.target.value})} onKeyUp={() => this.searchLocation()} placeholder="Search for Locations.." />
                 
-                <p><button onclick={() => this.sortTable()}>Sort</button></p>
+                <p><button onClick={() => this.sortTable()}>Sort</button></p>
                 
                 <table id="myTable">
-                <tr class="header">
+                <tr className="header">
                     <th>Location</th>
                     <th>Event</th>
                     <th>Favourite Location</th>
                 </tr>
-                <tr id="loc1" onclick= "Load()">
+                <tr id="loc1" onClick= "Load()">
                     <td>loc1</td>
                     <td>3</td>
                     <td>
-                    <div class="rate">
+                    <div className="rate">
                         <input type="checkbox" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text">1 star</label>
+                        <label htmlFor="star1" title="text">1 star</label>
                     </div>
                     </td>
                 </tr>
-                <tr id="loc2" onclick= "Load()">
+                <tr id="loc2" onClick= "Load()">
                     <td>loc2</td>
                     <td>10</td>
                     <td>
-                    <div class="rate">
+                    <div className="rate">
                         <input type="checkbox" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text">1 star</label>
+                        <label htmlFor="star2" title="text">1 star</label>
                     </div>
                     </td>
                 </tr>
-                <tr id="loc3" onclick= "Load()">
+                <tr id="loc3" onClick= "Load()">
                     <td>loc3</td>
                     <td>20</td>
                     <td>
-                    <div class="rate">
+                    <div className="rate">
                         <input type="checkbox" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text">1 star</label>
+                        <label htmlFor="star3" title="text">1 star</label>
                     </div>
                     </td>
                 </tr>
-                <tr id="loc4" onclick= "Load()">
+                <tr id="loc4" onClick= "Load()">
                     <td>loc4</td>
                     <td>15</td>
                     <td>
-                    <div class="rate">
+                    <div className="rate">
                         <input type="checkbox" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text">1 star</label>
+                        <label htmlFor="star4" title="text">1 star</label>
                     </div>
                     </td>
                 </tr>
