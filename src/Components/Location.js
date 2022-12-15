@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
+import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -74,6 +75,19 @@ class Location extends Component {
         }     
     }
 
+    Load() {
+
+        axios({
+            // need change localhost to the publicIP
+            url: "http://localhost:8080/location/loc1",
+            method: "GET",
+        })
+        .then((r) => {
+            window.location.replace("http://localhost:3000/dashboard/location/loc1");
+            console.log(r);
+        })
+    }
+
     render() {
 
         let username = sessionStorage.getItem("username");
@@ -98,8 +112,8 @@ class Location extends Component {
                     <th>Event</th>
                     <th>Favourite Location</th>
                 </tr>
-                <tr id="loc1" onClick= "Load()">
-                    <td>loc1</td>
+                <tr onClick={() => this.Load()} >
+                    <Link className="nav-link" to={"/dashboard/location/loc1"}><td id="loc1">Sha Tin Town Hall (Auditorium)</td></Link>
                     <td>3</td>
                     <td>
                     <div className="rate">
@@ -139,7 +153,6 @@ class Location extends Component {
                     </td>
                 </tr>
                 </table>
-                <div id= "showLoc"></div>
             </main>
             
         );
