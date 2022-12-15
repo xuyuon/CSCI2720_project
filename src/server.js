@@ -181,29 +181,83 @@ app.get('/lo', (req,res) => {
 });
 
 var file_dir_xml = __dirname + '/XMLfiles/';
-app.post('/getXML', (req, res) => {
+//down and put xml to db
+updateEvents = () => {
     var url = 'https://www.lcsd.gov.hk/datagovhk/event/events.xml';
-    var url2 = 'https://www.lcsd.gov.hk/datagovhk/event/venues.xml';
-    var url3 = 'https://www.lcsd.gov.hk/datagovhk/event/eventDates.xml';
     var file_name = 'events.xml';
-    var file_name2 = 'venues.xml';
-    var file_name3 = 'eventDates.xml';
-    //will create if not exist*
+    var parser = new xml2js.Parser();
     var file = fs.createWriteStream(file_dir_xml + file_name, {'flags': 'w'});
     const get = https.get(url, (response) => {
-        response.pipe(file);
+        var stream = response.pipe(file);
         console.log('saved file in XMLfiles!');
+        stream.on('finish', ()=> {//wait file get all data
+            fs.readFile(file_dir_xml + file_name, (err, data) => {
+                parser.parseString(data, (err, result) => {
+                    //console.dir(result.events.event);
+                    result.events.event.map((value, index) => {//have url of event
+                        if (value.pricee != '' && value.desce != ''){
+                            //console.log(value);
+                        }
+                        
+                    });
+                });
+            });
+        });
     });
+}
+app.post('/getXML', (req, res) => {
+    
+    var url2 = 'https://www.lcsd.gov.hk/datagovhk/event/venues.xml';
+    //var url3 = 'https://www.lcsd.gov.hk/datagovhk/event/eventDates.xml';
+    
+    var file_name2 = 'venues.xml';
+    //var file_name3 = 'eventDates.xml';
+    var parser = new xml2js.Parser();
+    //will create if not exist*
+    //do location first
     var file2 = fs.createWriteStream(file_dir_xml + file_name2, {'flags': 'w'});
-    const get2 = https.get(url, (response) => {
-        response.pipe(file2);
+    const get2 = https.get(url2, (response) => {
+        var stream = response.pipe(file2);
         console.log('saved file2 in XMLfiles!');
+        stream.on('finish', ()=> {//wait file get all data
+            fs.readFile(file_dir_xml + file_name2, (err, data) => {
+                parser.parseString(data, (err, result) => {
+                    //console.dir(result);
+                    if (err){console.log(err);}
+                    Location.deleteMany({}, (err, e)=>{
+                        if (err) {console.log(err)}
+                        else {
+                            result.venues.venue.map((value, index) => {//have url of event
+                                if (value.latitude != '' && value.longitude != ''){
+                                    //console.log(value);
+                                        Location.create({
+                                            name: value.venuee[0],
+                                            latitude: value.latitude[0],
+                                            longitude: value.longitude[0]
+                                        }, (err, e) => {
+                                            if (err){
+                                                console.log(err);
+                                            }else {
+                                                res.send();
+                                            }
+                                        })
+                                };
+                                
+                            });
+                        }
+                    })
+                });
+            });
+        });
+
     });
-    var file3 = fs.createWriteStream(file_dir_xml + file_name3, {'flags': 'w'});
-    const get3 = https.get(url, (response) => {
-        response.pipe(file3);
-        console.log('saved file3 in XMLfiles!');
-    });
+    
+    // var file3 = fs.createWriteStream(file_dir_xml + file_name3, {'flags': 'w'});
+    // const get3 = https.get(url3, (response) => {
+    //     var stream = response.pipe(file3);
+    //     console.log('saved file3 in XMLfiles!');
+    // });
+    
 });
 
 app.listen(8080);

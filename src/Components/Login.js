@@ -95,7 +95,24 @@ class Login extends Component {
             .then((r) => {
                 sessionStorage.setItem("username", r.data.username);
                 sessionStorage.setItem("isAdmin", r.data.isAdmin);
-                window.location.replace("http://localhost:3000/dashboard/location");
+
+                //download xml & update db
+                axios({
+                    // need change localhost to the publicIP
+                    url: "http://localhost:8080/getXML",
+                    method: "post"
+                })
+                .then((r) => {
+                    window.location.replace("http://localhost:3000/dashboard/location");
+                })
+                .catch((err) => {
+                    if (err.response.status === 406) {
+                        
+                    }
+                    else {
+                        console.log("Internal server error");
+                    }
+                });
             })
             .catch((err) => {
                 if (err.response.status === 401) {
