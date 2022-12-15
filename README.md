@@ -6,6 +6,17 @@ npm install
 ## How to run
 * Run the client (frontend)
 ```
+npm start
+```
+* Run the Server (backend)
+```
+cd src
+```
+```
+node server.js
+```
+* or run both with concurrently
+```
 npm run dev
 ```
 ## Application Requirements
