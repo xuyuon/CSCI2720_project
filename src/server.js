@@ -12,6 +12,8 @@ const xml2js = require('xml2js');
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
+const bcrypt = require("bcrypt"); 
+
 mongoose.set('strictQuery', true);
 // this is my MongoDB connect string
 // you can change it to yours
@@ -20,7 +22,7 @@ mongoose.connect('mongodb+srv://stu009:p424894W@cluster0.wenbhsm.mongodb.net/stu
 
 const LoginAccessSchema = new Schema({
 username: { type: String, unique: true, required: true, minLength: 4, maxLength: 20 },
-password: { type: String, required: true, minLength: 4, maxLength: 20 },
+password: { type: String, required: true},
 isAdmin: Boolean,
 favouriteLocation: [{ type: Schema.Types.ObjectId, ref: "Location"}],
 comments: [{ body: String }],
@@ -57,7 +59,7 @@ const Comment = mongoose.model("Comment", LoginAccessSchema);
 app.post("/newuser", (req, res) => {
     Access.create({
         username: req.body["username"],
-        password: req.body["password"],
+        password: bcrypt.hashSync(req.body["password"], 10),
         isAdmin: false
         }, (err) => {
         if (err) {
@@ -82,7 +84,7 @@ app.post("/login", (req, res) => {
             res.send();
         }
         else {
-            if (e.password !== req.body["password"]) {
+            if (bcrypt.compareSync(req.body["password"], e.password) === "true") {
                 res.status(401);
                 res.send();
             }
@@ -130,7 +132,7 @@ app.post('/updateuser', (req, res) => {
         {_id: req.body["id"]},
         {
             username: req.body["username"],
-            password: req.body["password"]
+            password: bcrypt.hashSync(req.body["password"], 10)
         },
         null,
         (err) => {

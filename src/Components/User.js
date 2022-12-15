@@ -142,11 +142,11 @@ class User extends Component {
         return (
             <main className="col">
                 <div className="my-3 d-flex justify-content-between">
-                    <h2 className="text-primary">User Data</h2>
+                    <h2 className="text-primary">User&nbsp;Data</h2>
                     <h3 ><b className="text-primary">{username}</b>&nbsp;<i className="bi bi-person-circle"></i></h3>
                 </div>
                 <div>
-                    <h1 className="my-3">Users Manage</h1>
+                    <h1 className="my-3">Users&nbsp;Manage</h1>
                     <button type="button" className="btn btn-primary my-3" onClick={this.showCreateInput}>Create New User</button>
 
                     <div id="create-user" className="border border-info w-50 rounded" style={{display: "none"}}>
@@ -162,12 +162,12 @@ class User extends Component {
                         </div>
                     </div>
 
-                    <h3 className="my-3">Users Table</h3>
+                    <h3 className="my-3">Users&nbsp;Table</h3>
                     <table className="table table-hover">
                         <thead>
                             <tr className="table-secondary">
                                 <th>Username</th>
-                                <th>Password</th>
+                                <th>Hashed&nbsp;Password</th>
                                 <th>Operations</th>
                             </tr>
                         </thead>
@@ -325,8 +325,8 @@ class UserRow extends Component {
                     <div id={"update_username"  + this.props.i + "-invalid"} className="text-danger"></div>
                 </td>
                 <td>
-                    {this.props.password}
-                    <input type="text" placeholder="Username" className="form-control mt-3" id={"update_pwd" + this.props.i} style={{display: "none"}} onBlur={this.validateUpdateInput} required/>
+                    <span className="text-break">{this.props.password}</span>
+                    <input type="text" placeholder="Password" className="form-control mt-3" id={"update_pwd" + this.props.i} style={{display: "none"}} onBlur={this.validateUpdateInput} required/>
                     <div id={"update_pwd" + this.props.i + "-invalid"} className="text-danger"></div>
                 </td>
                 <td>
