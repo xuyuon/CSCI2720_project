@@ -23,7 +23,6 @@ function App() {
           <Route path="/dashboard/favourite" element={<div className="container-fluid row"><Navbar /><Favourite /></div>} />
           <Route path="/dashboard/user" element={<div className="container-fluid row"><Navbar /><User/></div>} />
           <Route path="/dashboard/place" element={<div className="container-fluid row"><Navbar /><Place /></div>} />
-          <Route path="/dashboard/location/loc1" element={<div className="container-fluid row">hi</div>} />
         </Routes>
       </div>
     </BrowserRouter>
