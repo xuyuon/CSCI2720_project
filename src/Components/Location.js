@@ -127,7 +127,7 @@ class Location extends Component {
                 
                 <p><button onClick={() => this.sortTable()}>Sort</button></p>
                 
-                // To generate a table of all events
+                
                 <table id="myTable">
                 <tr className="header">
                     <th>Location</th>
@@ -136,10 +136,11 @@ class Location extends Component {
                 </tr>
                 {
                     this.state.locations.map(function(item, i){
+                        let event = item.programme.length;
                         return(
                             <tr id="{item._id}" onClick= "{Load()}">
                                 <td>{item.name}</td>
-                                <td>{item.programme}</td> // TO DO
+                                <td>{event}</td> 
                                 <td>
                                     <div className="rate">
                                     <input type="checkbox" id="star" name="rate" value="{i}" />
