@@ -12,7 +12,9 @@ class Location extends Component {
             search: "",
             locations:[]
         }
-        this.load()
+        this.load();
+        this.sortLocations(); // sort the locations according to the no. of event they contain
+        
     }
 
     // componentDidMount() {//load for each set state(just want once=> new class + new componentdidmount)
@@ -103,14 +105,13 @@ class Location extends Component {
         })
     }
 
-    createTable(){
-        
+    sortLocations(){
+        this.state.locations.sort(function(a, b){
+            return (a.programme.length - b.programme.length);
+        })
     }
 
     render() {
-
-        
-
         let username = sessionStorage.getItem("username");
         if (username === null) {
 			window.location.replace("http://localhost:3000/");
@@ -134,21 +135,26 @@ class Location extends Component {
                     <th>Event</th>
                     <th>Favourite Location</th>
                 </tr>
-                {
+
+                {   
                     this.state.locations.map(function(item, i){
                         let event = item.programme.length;
-                        return(
-                            <tr id="{item._id}" onClick= "{Load()}">
-                                <td>{item.name}</td>
-                                <td>{event}</td> 
-                                <td>
-                                    <div className="rate">
-                                    <input type="checkbox" id="star" name="rate" value="{i}" />
-                                    <label htmlFor="star" title="text">1 star</label>
-                                    </div>
-                                </td>
-                            </tr> 
-                        )  
+                            if(i < 10){
+                                return(
+                                    <tr id="{item._id}" onClick= "{Load()}">
+                                        <td>{item.name}</td>
+                                        <td>{event}</td> 
+                                        <td>
+                                            <div className="rate">
+                                            <input type="checkbox" id="star" name="rate" value="{i}" />
+                                            <label htmlFor="star" title="text">1 star</label>
+                                            </div>
+                                        </td>
+                                    </tr> 
+                                ); 
+                            }else{
+                                return(null);
+                            }
                         // <li key={i}>{JSON.stringify(item)}</li>
                     })
                 }
