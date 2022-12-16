@@ -56,6 +56,9 @@ const Location = mongoose.model("Location", LocationSchema);
 const Programme = mongoose.model("Programme", ProgrammeSchema);
 const Comment = mongoose.model("Comment", LoginAccessSchema);
 
+
+
+
 // create a new user
 app.post("/newuser", (req, res) => {
     Access.create({
@@ -172,8 +175,10 @@ app.get('/location/:locId', (req,res) => {
 //show all location data
 //not done
 app.get('/location', (req,res) => { 
-        Location.find({}, (err, e) => {
-        if (e.length > 0) {
+        Location.find({}).
+            populate('programme').
+            exec(function (err, e) {
+                if (e.length > 0) {
                 if (err)
                     res.send(err);
                 else { 
