@@ -9,8 +9,10 @@ class Location extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            search: ""
+            search: "",
+            locations:[]
         }
+        this.load()
     }
 
     // componentDidMount() {//load for each set state(just want once=> new class + new componentdidmount)
@@ -38,57 +40,76 @@ class Location extends Component {
           }
         }
     }
+    
 
     sortTable() { //sort table according no. of event
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("myTable");
-        switching = true;
+        // var table, rows, switching, i, x, y, shouldSwitch;
+        // table = document.getElementById("myTable");
+        // switching = true;
           
-        // Make a loop that will continue until no switching has been done://
-        while (switching) {
-          //start by saying: no switching is done:
-          switching = false;
-          rows = table.rows;
+        // // Make a loop that will continue until no switching has been done://
+        // while (switching) {
+        //   //start by saying: no switching is done:
+        //   switching = false;
+        //   rows = table.rows;
           
-          // Loop through all table rows (except the first, which contains table headers)://
-          for (i = 1; i < (rows.length - 1); i++) {
-            //start by saying there should be no switching:
-            shouldSwitch = false;
+        //   // Loop through all table rows (except the first, which contains table headers)://
+        //   for (i = 1; i < (rows.length - 1); i++) {
+        //     //start by saying there should be no switching:
+        //     shouldSwitch = false;
             
-            //Get the two elements you want to compare, one from current row and one from the next://
-            x = rows[i].getElementsByTagName("TD")[1];
-            y = rows[i + 1].getElementsByTagName("TD")[1];
+        //     //Get the two elements you want to compare, one from current row and one from the next://
+        //     x = rows[i].getElementsByTagName("TD")[1];
+        //     y = rows[i + 1].getElementsByTagName("TD")[1];
             
-            //check if the two rows should switch place:
-            if (Number(x.innerHTML) > Number(y.innerHTML)) {
-              //if so, mark as a switch and break the loop:
-              shouldSwitch = true;
-              break;
-            }
-          }
-          if (shouldSwitch) {
-            /*If a switch has been marked, make the switch
-            and mark that a switch has been done:*/
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-          }
-        }     
+        //     //check if the two rows should switch place:
+        //     if (Number(x.innerHTML) > Number(y.innerHTML)) {
+        //       //if so, mark as a switch and break the loop:
+        //       shouldSwitch = true;
+        //       break;
+        //     }
+        //   }
+        //   if (shouldSwitch) {
+        //     /*If a switch has been marked, make the switch
+        //     and mark that a switch has been done:*/
+        //     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        //     switching = true;
+        //   }
+        // }     
+
+        //this.state.locations.sort((a,b) => )
     }
 
-    Load() {
+    load() {
+
+        var _this = this
 
         axios({
             // need change localhost to the publicIP
-            url: "http://localhost:8080/location/loc1",
+            url: "http://localhost:8080/location/",
             method: "GET",
-        })
+        }) 
         .then((r) => {
-            window.location.replace("http://localhost:3000/dashboard/location/loc1");
-            console.log(r);
+            //window.location.replace("http://localhost:3000/dashboard/location/loc1");
+            
+            _this.state.locations = r.data
+            console.log(_this.state.locations);
+            _this.forceUpdate()
+
+            _this.state.locations.map(function(item, i){
+                console.log(item);
+                //return <li key={i}>JSON.stringify(item)</li>
+            })
         })
     }
 
+    createTable(){
+        
+    }
+
     render() {
+
+        
 
         let username = sessionStorage.getItem("username");
         if (username === null) {
@@ -112,7 +133,51 @@ class Location extends Component {
                     <th>Event</th>
                     <th>Favourite Location</th>
                 </tr>
-                <tr onClick={() => this.Load()} >
+
+                {
+
+                    this.state.locations.map(function(item, i){
+                        var buf = 
+                        "<tr id =" + item._id + "onClick= \"Load()\">" +
+                        "<th>" + item.name + "</th>" +
+                        "<th>";
+
+                        for(let j = 0; j < item.programme.length; j++){
+                            buf += item.programme[j] + "<br>";
+                        }
+
+                        
+                        
+
+                        return(
+                            <tr id="{item._id}" onClick= "{Load()}">
+                                <td>{item.name}</td>
+                                <td>{item.programme}</td>
+                                <td>
+                                    <div className="rate">
+                                    <input type="checkbox" id="star" name="rate" value="{i}" />
+                                    <label htmlFor="star" title="text">1 star</label>
+                                    </div>
+                                </td>
+                            </tr> 
+                            
+                            
+                        )
+                        
+                        // <li key={i}>{JSON.stringify(item)}</li>
+                    })
+
+                }
+
+                </table>
+                
+                {/* <table id="myTable">
+                <tr className="header">
+                    <th>Location</th>
+                    <th>Event</th>
+                    <th>Favourite Location</th>
+                </tr>
+                <tr onClick={() => console.log()} >
                     <Link className="nav-link" to={"/dashboard/location/loc1"}><td id="loc1">Sha Tin Town Hall (Auditorium)</td></Link>
                     <td>3</td>
                     <td>
@@ -152,7 +217,7 @@ class Location extends Component {
                     </div>
                     </td>
                 </tr>
-                </table>
+                </table> */}
             </main>
             
         );
